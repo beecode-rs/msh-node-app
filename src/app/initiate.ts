@@ -1,5 +1,5 @@
 import { CallBackFn, FunctionArray } from '.'
-import { LoggerStrategy, NoLogger } from '../logger'
+import { LoggerStrategy, NoLogger } from '@beecode/msh-node-log'
 
 export type InitiateOptions = {
   name: string
@@ -8,8 +8,8 @@ export type InitiateOptions = {
 }
 
 export class Initiate {
-  private __loggerStrategy = new NoLogger()
   private readonly __name: string
+  private __loggerStrategy = new NoLogger()
   private __preInitFn = new FunctionArray()
   private __postInitFn = new FunctionArray()
   private __preDestroyFn = new FunctionArray()
