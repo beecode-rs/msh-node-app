@@ -13,7 +13,9 @@
       "path": "node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@beecode/msh-node-log": "1.0.0"
+  },
   "description": "",
   "devDependencies": {
     "@commitlint/prompt": "11.0.0",
@@ -104,7 +106,7 @@
     "semantic-release": "semantic-release",
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
-    "test:int": "mocha ./src/test/{**/,/}*.ts",
+    "test:int": "#mocha ./src/test/{**/,/}*.ts",
     "test:unit": "mocha ./src/{**/,/}*.test.ts"
   },
   "typings": "./lib/index.d.ts",

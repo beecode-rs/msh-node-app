@@ -1,6 +1,6 @@
 import { Initiate } from './initiate'
 
-export class app {
+export class App {
   private readonly __initList: (Initiate | Initiate[])[]
 
   constructor(...args: (Initiate | Initiate[])[]) {
