@@ -74,9 +74,6 @@
     "@commitlint/config-conventional": "11.0.0",
     "husky": "4.3.6"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/beecode-rs"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/beecode-rs/msh-node-app.git"
