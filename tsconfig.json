@@ -4,7 +4,7 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "lib": ["es2016", "dom", "es2017", "esnext.asynciterable"],
+    "lib": ["esnext"],
     "module": "CommonJS",
     "noImplicitAny": true,
     "noImplicitReturns": true,
