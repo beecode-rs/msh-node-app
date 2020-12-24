@@ -4,7 +4,7 @@ import { LoggerStrategy, NoLogger } from '@beecode/msh-node-log'
 export type InitiateOptions = {
   name: string
   initiateFn?: CallBackFn
-  destroyFu?: CallBackFn
+  destroyFn?: CallBackFn
 }
 
 export class Initiate {
@@ -30,7 +30,7 @@ export class Initiate {
 
   public constructor(options: InitiateOptions) {
     this.__initFn = options.initiateFn
-    this.__destroyFn = options.destroyFu
+    this.__destroyFn = options.destroyFn
     this.__name = options.name
   }
 

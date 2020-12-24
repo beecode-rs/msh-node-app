@@ -4,7 +4,7 @@ export class App {
   private readonly __initList: (Initiate | Initiate[])[]
 
   constructor(...args: (Initiate | Initiate[])[]) {
-    this.__initList = args
+    this.__initList = [...args]
   }
 
   public async initiate(): Promise<void> {
