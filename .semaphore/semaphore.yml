@@ -13,6 +13,7 @@ blocks:
       secrets:
         - name: bc-git-secret
         - name: bc-npm-secret
+        - name: bc-msh-node-app-secret
       env_vars:
         - name: NODE_ENV
           value: test
@@ -32,6 +33,7 @@ blocks:
       secrets:
         - name: bc-git-secret
         - name: bc-npm-secret
+        - name: bc-msh-node-app-secret
       jobs:
         - name: Build
           commands:
