@@ -1,5 +1,5 @@
 import { Initiate } from './initiate';
-export declare class app {
+export declare class App {
     private readonly __initList;
     constructor(...args: (Initiate | Initiate[])[]);
     initiate(): Promise<void>;

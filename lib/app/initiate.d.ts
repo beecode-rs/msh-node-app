@@ -1,13 +1,13 @@
-import { LoggerStrategy } from '../logger';
 import { CallBackFn } from '.';
+import { LoggerStrategy } from '@beecode/msh-node-log';
 export declare type InitiateOptions = {
     name: string;
     initiateFn?: CallBackFn;
-    destroyFu?: CallBackFn;
+    destroyFn?: CallBackFn;
 };
 export declare class Initiate {
-    private __loggerStrategy;
     private readonly __name;
+    private __loggerStrategy;
     private __preInitFn;
     private __postInitFn;
     private __preDestroyFn;
