@@ -16,7 +16,7 @@
   "dependencies": {
     "@beecode/msh-node-log": "1.0.0"
   },
-  "description": "",
+  "description": "This project is intended to be used in typescript project to help with app initialization.",
   "devDependencies": {
     "@commitlint/prompt": "11.0.0",
     "@istanbuljs/nyc-config-typescript": "1.0.1",
