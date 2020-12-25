@@ -1,6 +1,12 @@
 import { CallBackFn } from '.'
 
-export class FunctionArray {
+export interface IFunctionArray {
+  execAll(): Promise<void>
+  append: (cb: CallBackFn) => void
+  readonly HasFns: boolean
+}
+
+export class FunctionArray implements IFunctionArray {
   private readonly __fns: CallBackFn[] = []
 
   public constructor(fns: CallBackFn[] = []) {
