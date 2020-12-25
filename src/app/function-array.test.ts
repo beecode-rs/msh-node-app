@@ -1,6 +1,25 @@
-import { FunctionArray } from '.'
+import { FunctionArray, IFunctionArray } from '.'
 import { expect } from 'chai'
-import { assert, createSandbox } from 'sinon'
+import { SinonSandbox, SinonStub, assert, createSandbox } from 'sinon'
+
+export interface MockFunctionArray {
+  append: SinonStub
+  readonly HasFns: boolean
+  getHasFun: SinonStub
+  execAll: SinonStub
+}
+
+export const mockFunctionArray = (sandbox: SinonSandbox): any =>
+  class implements IFunctionArray, MockFunctionArray {
+    public append = sandbox.stub()
+
+    public get HasFns(): boolean {
+      return this.getHasFun()
+    }
+    public getHasFun = sandbox.stub()
+
+    public execAll = sandbox.stub()
+  }
 
 describe('app - FunctionArray', () => {
   const emptyFn = () => async (): Promise<void> => {

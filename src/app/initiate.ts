@@ -1,4 +1,4 @@
-import { CallBackFn, FunctionArray } from '.'
+import { CallBackFn, FunctionArray, IFunctionArray } from '.'
 import { LoggerStrategy, NoLogger } from '@beecode/msh-node-log'
 
 export type InitiateOptions = {
@@ -10,10 +10,10 @@ export type InitiateOptions = {
 export class Initiate {
   private readonly __name: string
   private __loggerStrategy = new NoLogger()
-  private __preInitFn = new FunctionArray()
-  private __postInitFn = new FunctionArray()
-  private __preDestroyFn = new FunctionArray()
-  private __postDestroyFn = new FunctionArray()
+  private __preInitFn: IFunctionArray = new FunctionArray()
+  private __postInitFn: IFunctionArray = new FunctionArray()
+  private __preDestroyFn: IFunctionArray = new FunctionArray()
+  private __postDestroyFn: IFunctionArray = new FunctionArray()
   private readonly __initFn: CallBackFn | undefined
   private readonly __destroyFn: CallBackFn | undefined
 
@@ -38,19 +38,19 @@ export class Initiate {
     this._Logger.debug(`${this.Name} - Init Called`)
 
     if (this.__preInitFn.HasFns) {
-      this._Logger.debug(`${this.Name}  - START - Pre Init`)
+      this._Logger.debug(`${this.Name} - START - Pre Init`)
       await this.__preInitFn.execAll()
-      this._Logger.debug(`${this.Name}  - END   - Pre Init`)
+      this._Logger.debug(`${this.Name} - END   - Pre Init`)
     }
     if (this.__initFn) {
-      this._Logger.debug(`${this.Name}  - START - Init`)
+      this._Logger.debug(`${this.Name} - START - Init`)
       await this.__initFn()
-      this._Logger.debug(`${this.Name}  - END   - Init`)
+      this._Logger.debug(`${this.Name} - END   - Init`)
     }
     if (this.__postInitFn.HasFns) {
-      this._Logger.debug(`${this.Name}  - START - Post Init`)
+      this._Logger.debug(`${this.Name} - START - Post Init`)
       await this.__postInitFn.execAll()
-      this._Logger.debug(`${this.Name}  - END   - Post Init`)
+      this._Logger.debug(`${this.Name} - END   - Post Init`)
     }
   }
 
@@ -62,19 +62,19 @@ export class Initiate {
   public async destroy(): Promise<void> {
     this._Logger.debug(`${this.Name} - Destroy Called`)
     if (this.__preDestroyFn.HasFns) {
-      this._Logger.debug(`${this.Name}  - START - Pre Destroy`)
+      this._Logger.debug(`${this.Name} - START - Pre Destroy`)
       await this.__preDestroyFn.execAll()
-      this._Logger.debug(`${this.Name}  - END   - Pre Destroy`)
+      this._Logger.debug(`${this.Name} - END   - Pre Destroy`)
     }
     if (this.__destroyFn) {
-      this._Logger.debug(`${this.Name}  - START - Destroy`)
+      this._Logger.debug(`${this.Name} - START - Destroy`)
       await this.__destroyFn()
-      this._Logger.debug(`${this.Name}  - END   - Destroy`)
+      this._Logger.debug(`${this.Name} - END   - Destroy`)
     }
     if (this.__postDestroyFn.HasFns) {
-      this._Logger.debug(`${this.Name}  - START - Post Destroy`)
+      this._Logger.debug(`${this.Name} - START - Post Destroy`)
       await this.__postDestroyFn.execAll()
-      this._Logger.debug(`${this.Name}  - END   - Post Destroy`)
+      this._Logger.debug(`${this.Name} - END   - Post Destroy`)
     }
   }
 }
