@@ -28,6 +28,7 @@ blocks:
             - npm run build
             - git tag v$VERSION-prod && git push origin --tags
             - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+            - npm config set unsafe-perm true
             - npm publish --access public
     skip:
       when: branch != 'main'

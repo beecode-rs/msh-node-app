@@ -29,6 +29,7 @@ blocks:
             - npm run bump-version -- $VERSION-alpha
             - git tag v$VERSION-alpha && git push origin --tags
             - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+            - npm config set unsafe-perm true
             - npm publish --access public -tag alpha
     skip:
       when: branch != 'main'
