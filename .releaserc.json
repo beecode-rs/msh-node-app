@@ -6,7 +6,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo VERSION=${nextRelease.version} > version.txt && npm run bump-version -- ${nextRelease.version} && npm install --quiet"
+        "prepareCmd": "echo VERSION=${nextRelease.version} > version.txt && npm version ${nextRelease.version}"
       }
     ],
     "@semantic-release/changelog",

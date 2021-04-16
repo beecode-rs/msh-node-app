@@ -40,6 +40,8 @@ blocks:
             - checkout
             - cache restore
             - npm run build
+            - npm config set sign-git-tag false
+            - npm config set git-tag-version false
             - npm run semantic-release
             - touch version.txt && cat version.txt
             - cache store bc-msh-node-app-version-$SEMAPHORE_GIT_SHA version.txt
