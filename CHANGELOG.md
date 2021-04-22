@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/beecode-rs/msh-node-app/compare/v0.0.6...v0.1.0) (2021-04-22)
+
+
+### Features
+
+* add destroy call, update package ([4edd722](https://github.com/beecode-rs/msh-node-app/commit/4edd7221d5a296d85577b8054b4d25739dc1ed40))
+
 ## [0.0.6](https://github.com/beecode-rs/msh-node-app/compare/v0.0.5...v0.0.6) (2021-04-16)
 
 
