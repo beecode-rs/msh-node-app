@@ -13,4 +13,11 @@ export class App {
       else await Promise.all(init.map((i) => i.initiate()))
     }
   }
+
+  public async destroy(): Promise<void> {
+    for (const rInit of this.__initList.reverse()) {
+      if (!Array.isArray(rInit)) await rInit.destroy()
+      else await Promise.all(rInit.map((i) => i.destroy()))
+    }
+  }
 }

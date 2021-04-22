@@ -54,6 +54,7 @@
     "semantic-release": "17.4.2",
     "sinon": "10.0.0",
     "source-map-support": "0.5.19",
+    "ts-cleaner": "1.0.5",
     "ts-node": "9.1.1",
     "tsc-watch-2": "0.0.2",
     "typescript": "4.2.4"
@@ -71,9 +72,15 @@
     "type": "git",
     "url": "https://github.com/beecode-rs/msh-node-app.git"
   },
+  "resolutions": {
+    "lodash": "^4.17.21",
+    "ssri": "^8.0.1",
+    "y18n": "^5.0.8"
+  },
   "scripts": {
+    "audit:fix": "npx npm-force-resolutions",
     "build": "npm run clean && tsc -p ./tsconfig-build.json",
-    "build:watch": "npm run clean && tsc-watch -p tsconfig-build.json --preserveWatchOutput",
+    "build:watch": "npm run tsc:watch -- --preserveWatchOutput --onSuccess \"npm run tsc:cleaner\"",
     "bump-version": "rjp package.json version",
     "clean": "rimraf ./lib/*",
     "commit": "git-cz",
@@ -93,7 +100,12 @@
     "semantic-release:check": "npm run semantic-release -- --dry-run --no-ci",
     "test": "npm run test:unit -- --forbid-only && npm run test:int -- --forbid-only",
     "test:int": "#mocha ./src/test/{**/,/}*.ts",
-    "test:unit": "mocha ./src/{**/,/}*.test.ts"
+    "test:unit": "mocha ./src/{**/,/}*.test.ts",
+    "tsc": "tsc -p ./tsconfig-build.json",
+    "tsc:check": "npm run tsc -- --noEmit",
+    "tsc:cleaner": "ts-cleaner --dist build",
+    "tsc:cleaner:watch": "npm run tsc:cleaner -- --watch",
+    "tsc:watch": "tsc-watch -p tsconfig-build.json"
   },
   "typings": "./lib/index.d.ts",
   "version": "0.0.6"
