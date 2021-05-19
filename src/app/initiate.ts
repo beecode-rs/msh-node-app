@@ -1,5 +1,6 @@
 import { FunctionArray, IFunctionArray } from '.'
-import { LoggerStrategy, NoLogger } from '@beecode/msh-node-log'
+import { LoggerStrategy } from '@beecode/msh-node-log'
+import { NoLogger } from '@beecode/msh-node-log/lib/no-logger'
 
 export abstract class Initiate {
   private __loggerStrategy = new NoLogger()

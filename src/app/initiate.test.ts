@@ -1,6 +1,6 @@
 import { MockFunctionArray, mockFunctionArray } from './function-array.test'
 import { Initiate } from './initiate'
-import { mockLoggerStrategy } from '@beecode/msh-node-log/lib/logger-strategy.test'
+import { mockLoggerStrategyFactory } from '@beecode/msh-node-log/lib/logger-strategy.test'
 import { expect } from 'chai'
 import proxyquire from 'proxyquire'
 import { SinonSandbox, assert, createSandbox } from 'sinon'
@@ -39,7 +39,7 @@ describe('app - Initiate', () => {
     const sandbox = createSandbox()
     afterEach(sandbox.restore)
     it('should set loggerStrategy', () => {
-      const mockLogger = mockLoggerStrategy(sandbox)
+      const mockLogger = new (mockLoggerStrategyFactory(sandbox))()
       init.Logger = mockLogger
       expect(init['__loggerStrategy']).to.equal(mockLogger)
     })
@@ -49,7 +49,7 @@ describe('app - Initiate', () => {
     const sandbox = createSandbox()
     afterEach(sandbox.restore)
     it('should set loggerStrategy', () => {
-      const mockLogger = mockLoggerStrategy(sandbox)
+      const mockLogger = mockLoggerStrategyFactory(sandbox)
       init['__loggerStrategy'] = mockLogger
       expect(init['_Logger']).to.equal(mockLogger)
     })
@@ -64,8 +64,8 @@ describe('app - Initiate', () => {
 
     beforeEach(() => {
       mod = proxyquire('./initiate', {
-        '@beecode/msh-node-log': {
-          NoLogger: mockLoggerStrategy(sandbox),
+        '@beecode/msh-node-log/lib/no-logger': {
+          NoLogger: mockLoggerStrategyFactory(sandbox),
         },
         '.': {
           FunctionArray: mockFunctionArray(sandbox),
@@ -98,7 +98,7 @@ describe('app - Initiate', () => {
       })
 
       it('should call chosen logger strategy', async () => {
-        const customLogger = new (mockLoggerStrategy(sandbox))()
+        const customLogger = new (mockLoggerStrategyFactory(sandbox))()
         const init = overrideInitiate
         const defaultLogger = init['_Logger']
         init.Logger = customLogger
@@ -181,7 +181,7 @@ describe('app - Initiate', () => {
       })
 
       it('should call chosen logger strategy', async () => {
-        const customLogger = new (mockLoggerStrategy(sandbox))()
+        const customLogger = new (mockLoggerStrategyFactory(sandbox))()
         const init = overrideInitiate
         const defaultLogger = init['_Logger']
         init.Logger = customLogger

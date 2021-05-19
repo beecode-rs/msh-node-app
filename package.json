@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "@beecode/msh-node-log": "1.1.6"
+    "@beecode/msh-node-log": "2.0.2"
   },
   "description": "This project is intended to be used in typescript project to help with app initialization.",
   "devDependencies": {
