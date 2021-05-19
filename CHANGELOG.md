@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/beecode-rs/msh-node-app/compare/v0.1.0...v0.1.1) (2021-05-19)
+
+
+### Bug Fixes
+
+* use package.json (msh-node-log) ([5039ade](https://github.com/beecode-rs/msh-node-app/commit/5039ade3e5a36b45bbe0f24032305851edca7f7b))
+
 # [0.1.0](https://github.com/beecode-rs/msh-node-app/compare/v0.0.6...v0.1.0) (2021-04-22)
 
 
