@@ -1,2 +1,2 @@
 /* istanbul ignore file */
-export * from './app-flow'
+import 'jest-extended'
