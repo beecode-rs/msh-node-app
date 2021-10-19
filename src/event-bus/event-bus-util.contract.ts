@@ -46,6 +46,56 @@ export default contractFactory(
           ],
           result: 'fake',
         },
+        {
+          params: [
+            new EventBus(),
+            'Pre  execSimpleName',
+            async (): Promise<string> => {
+              return 'pre fake'
+            },
+          ],
+          result: 'pre fake',
+        },
+        {
+          params: [
+            new EventBus(),
+            'Post execSimpleName',
+            async (): Promise<string> => {
+              return 'post fake'
+            },
+          ],
+          result: 'post fake',
+        },
+        {
+          params: [
+            new EventBus(),
+            'execWithHooksName',
+            async (): Promise<string> => {
+              return 'fake'
+            },
+          ],
+          result: 'fake',
+        },
+        {
+          params: [
+            new EventBus(),
+            'Pre  execWithHooksName',
+            async (): Promise<string> => {
+              return 'pre fake'
+            },
+          ],
+          result: 'pre fake',
+        },
+        {
+          params: [
+            new EventBus(),
+            'Post execWithHooksName',
+            async (): Promise<string> => {
+              return 'post fake'
+            },
+          ],
+          result: 'post fake',
+        },
       ],
     },
   }

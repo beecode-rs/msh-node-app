@@ -1,4 +1,5 @@
 import { EventBusType } from '../event-bus/event-bus-type'
+import { eventBusUtil } from '../event-bus/event-bus-util'
 import EventBusUtilContract from '../event-bus/event-bus-util.contract'
 import EventBusContract from '../event-bus/event-bus.contract'
 import { ExecuteSimple } from './execute-simple'
@@ -25,7 +26,12 @@ describe('ExecuteSimple', () => {
       const fakeResult = 'fake'
       const fakeFn = jest.fn().mockResolvedValue(fakeResult)
       const executeSimple = new ExecuteSimple(name, fakeFn)
+      expect(eventBusUtil.startEndEventWrapAndExecute).not.toHaveBeenCalled()
+      expect(executeSimple['_eventBus'].emit).not.toHaveBeenCalled()
+
       const result = await executeSimple.execute()
+
+      expect(eventBusUtil.startEndEventWrapAndExecute).toHaveBeenCalledTimes(1)
       expect(result).toEqual(fakeResult)
       expect(executeSimple['_eventBus'].emit).toHaveBeenCalledTimes(1)
       expect(executeSimple['_eventBus'].emit).toHaveBeenCalledWith(EventBusType.LOG, 'execSimpleName Called')
