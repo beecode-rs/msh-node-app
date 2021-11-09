@@ -1,0 +1,109 @@
+@startuml
+    folder "src" as src_b874d07 {
+      enum "LifeCycleDirection" as life_cycle_direction_d6caefff {
+        CREATE = 'create'
+        DESTROY = 'destroy'
+      }
+      class "AppFlow" as app_flow_d6caefff {
+        # _deepExecFlowList(lifeCycleList: LifeCycleList,\n createOrDestroy: LifeCycleDirection): Promise<void>
+        # _execSyncFlowList(lifeCycleList: LifeCycle[],\n createOrDestroy: LifeCycleDirection): Promise<void>
+        # _lifeCycleList: LifeCycleList
+        # _topLevelReversedFlowList: LifeCycleList
+        constructor(...args: LifeCycleList)
+        + create: Promise<void>
+        + destroy: Promise<void>
+      }
+      folder "event-bus" as event_bus_b179faad {
+        enum "EventBusType" as event_bus_type_e4eda33b {
+          LOG = 'rx-bus.log'
+        }
+        object "eventBusUtil" as event_bus_util_55c275a7 {
+          + startEndEventWrapAndExecute(eventBus: EventBus,\n message: string,\n cb: () => Promise<any>): Promise<T>
+        }
+        class "EventBus" as event_bus_2346de6e {
+          # _rxjsFilteredSubject(type?: EventBusType): Observable<EventBusPayload<T>>
+          # _subject
+          + emit(type: EventBusType,\n message: T): void
+          + subscribe(cb: (message: EventBusPayload<T>) => void,\n type?: EventBusType): Unsubscribable
+        }
+        interface "Subscribable" as subscribable_33c09d2c {
+          + subscribe(cb: (message: EventBusPayload<T>) => void): Unsubscribable
+        }
+        interface "Unsubscribable" as unsubscribable_53831e77 {
+          + unsubscribe: void
+        }
+      }
+      folder "execute" as execute_6909d7 {
+        interface "Executable" as executable_94895fe1 {
+          + execute: Promise<T>
+        }
+        class "ExecuteSimple" as execute_simple_ea430bad {
+          # _eventBus
+          constructor(protected readonly _name: string,\n protected readonly _fn: () => Promise<T>)
+          + execute: Promise<T>
+          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
+        }
+        class "ExecuteWithHooks" as execute_with_hooks_fa3c885c {
+          # _eventBus
+          # _postFn
+          # _preFn
+          constructor(protected _name: string,\n protected _fn: () => Promise<T>)
+          + execute: Promise<T>
+          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
+        }
+        class "FunctionArray" as function_array_b669ac47 {
+          + HasFns: boolean
+          # _fns: CallBackFn<T>[]
+          + append(cb: CallBackFn<T>): void
+          + constructor(fns: CallBackFn<T>[] = [])
+          + execAll: Promise<T[]>
+        }
+      }
+      folder "life-cycle" as life_cycle_3f5aa653 {
+        interface "Creatable" as creatable_6eee977e {
+          + create: Promise<T>
+        }
+        interface "Destructible" as destructible_14789501 {
+          + destroy: Promise<T>
+        }
+        abstract "LifeCycle" as life_cycle_ee3c432e {
+          # _createExec: LifeCycleExecutable<T>
+          # {abstract} _createFn: Promise<T>
+          # _destroyExec: LifeCycleExecutable<T>
+          # {abstract} _destroyFn: Promise<T>
+          # _eventBus
+          # constructor(name: string,\n createExec: ObjectType<LifeCycleExecutable<T>> = ExecuteSimple,\n destroyExec: ObjectType<LifeCycleExecutable<T>> = ExecuteSimple)
+          + create: Promise<T>
+          + destroy: Promise<T>
+          + name: string
+          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
+        }
+      }
+    }
+  app_flow_d6caefff -up-> life_cycle_ee3c432e
+  app_flow_d6caefff -up-> life_cycle_direction_d6caefff
+  event_bus_util_55c275a7 -up-> event_bus_2346de6e
+  event_bus_util_55c275a7 -up-> event_bus_type_e4eda33b
+  event_bus_2346de6e -up-> event_bus_type_e4eda33b
+  event_bus_2346de6e -up-> unsubscribable_53831e77
+  event_bus_2346de6e .up.|> subscribable_33c09d2c
+  execute_simple_ea430bad -up-> event_bus_2346de6e
+  execute_simple_ea430bad -up-> event_bus_type_e4eda33b
+  execute_simple_ea430bad -up-> event_bus_util_55c275a7
+  execute_simple_ea430bad -up-> unsubscribable_53831e77
+  execute_simple_ea430bad .up.|> executable_94895fe1
+  execute_simple_ea430bad .up.|> subscribable_33c09d2c
+  execute_with_hooks_fa3c885c -up-> event_bus_2346de6e
+  execute_with_hooks_fa3c885c -up-> event_bus_type_e4eda33b
+  execute_with_hooks_fa3c885c -up-> event_bus_util_55c275a7
+  execute_with_hooks_fa3c885c -up-> unsubscribable_53831e77
+  execute_with_hooks_fa3c885c -up-> function_array_b669ac47
+  execute_with_hooks_fa3c885c .up.|> executable_94895fe1
+  execute_with_hooks_fa3c885c .up.|> subscribable_33c09d2c
+  life_cycle_ee3c432e -up-> event_bus_2346de6e
+  life_cycle_ee3c432e -up-> unsubscribable_53831e77
+  life_cycle_ee3c432e -up-> execute_simple_ea430bad
+  life_cycle_ee3c432e .up.|> destructible_14789501
+  life_cycle_ee3c432e .up.|> creatable_6eee977e
+  life_cycle_ee3c432e .up.|> subscribable_33c09d2c
+@enduml
