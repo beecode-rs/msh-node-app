@@ -1,1 +1,0 @@
-{"version":3,"file":"subscribable.d.ts","sourceRoot":"","sources":["../../src/event-bus/subscribable.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,eAAe,EAAE,MAAM,aAAa,CAAA;AAC7C,OAAO,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAA;AAEjD,MAAM,WAAW,YAAY,CAAC,CAAC,GAAG,MAAM;IACtC,SAAS,CAAC,EAAE,EAAE,CAAC,OAAO,EAAE,eAAe,CAAC,CAAC,CAAC,KAAK,IAAI,GAAG,cAAc,CAAA;CACrE"}

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-vision --projectRootPath=../../.. --tsConfig=../../../tsconfig.json --destName=vision --printIgnoreExternal --printIgnoreTypes  --printIgnorePaths=src/old-tests,src/global-contract,src/types.d.ts,src/index.ts
+vision --projectRootPath=../../.. --tsConfig=../../../tsconfig.json --destName=vision --printIgnorePaths=src/index.ts,src/test,src/util

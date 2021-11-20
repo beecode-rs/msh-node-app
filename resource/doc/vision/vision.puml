@@ -1,109 +1,69 @@
 @startuml
     folder "src" as src_b874d07 {
-      enum "LifeCycleDirection" as life_cycle_direction_d6caefff {
+      card flow_list_d6caefff [
+        FlowList
+        ---
+        (LifeCycle | LifeCycle[])[]
+      ]
+      enum "FlowDirection" as flow_direction_d6caefff {
         CREATE = 'create'
         DESTROY = 'destroy'
       }
-      class "AppFlow" as app_flow_d6caefff {
-        # _deepExecFlowList(lifeCycleList: LifeCycleList,\n createOrDestroy: LifeCycleDirection): Promise<void>
-        # _execSyncFlowList(lifeCycleList: LifeCycle[],\n createOrDestroy: LifeCycleDirection): Promise<void>
-        # _lifeCycleList: LifeCycleList
-        # _topLevelReversedFlowList: LifeCycleList
-        constructor(...args: LifeCycleList)
+      abstract "AppFlow" as app_flow_d6caefff {
+        + DeepExecFlowList(params: {\n flowList: FlowList;\n direction: FlowDirection \n}): Promise<void>
+        + ExecSyncFlowList(lifeCycleList: LifeCycle[],\n createOrDestroy: FlowDirection): Promise<void>
+        # _flowList: FlowList
+        # _topLevelReversedFlowList: FlowList
+        # constructor(...args: FlowList)
         + create: Promise<void>
         + destroy: Promise<void>
       }
-      folder "event-bus" as event_bus_b179faad {
-        enum "EventBusType" as event_bus_type_e4eda33b {
-          LOG = 'rx-bus.log'
-        }
-        object "eventBusUtil" as event_bus_util_55c275a7 {
-          + startEndEventWrapAndExecute(eventBus: EventBus,\n message: string,\n cb: () => Promise<any>): Promise<T>
-        }
-        class "EventBus" as event_bus_2346de6e {
-          # _rxjsFilteredSubject(type?: EventBusType): Observable<EventBusPayload<T>>
-          # _subject
-          + emit(type: EventBusType,\n message: T): void
-          + subscribe(cb: (message: EventBusPayload<T>) => void,\n type?: EventBusType): Unsubscribable
-        }
-        interface "Subscribable" as subscribable_33c09d2c {
-          + subscribe(cb: (message: EventBusPayload<T>) => void): Unsubscribable
-        }
-        interface "Unsubscribable" as unsubscribable_53831e77 {
-          + unsubscribe: void
-        }
+      enum "AppStarterStatus" as app_starter_status_e965a85a {
+        STARTED = 'started'
+        STOPPED = 'stopped'
       }
-      folder "execute" as execute_6909d7 {
-        interface "Executable" as executable_94895fe1 {
-          + execute: Promise<T>
-        }
-        class "ExecuteSimple" as execute_simple_ea430bad {
-          # _eventBus
-          constructor(protected readonly _name: string,\n protected readonly _fn: () => Promise<T>)
-          + execute: Promise<T>
-          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
-        }
-        class "ExecuteWithHooks" as execute_with_hooks_fa3c885c {
-          # _eventBus
-          # _postFn
-          # _preFn
-          constructor(protected _name: string,\n protected _fn: () => Promise<T>)
-          + execute: Promise<T>
-          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
-        }
-        class "FunctionArray" as function_array_b669ac47 {
-          + HasFns: boolean
-          # _fns: CallBackFn<T>[]
-          + append(cb: CallBackFn<T>): void
-          + constructor(fns: CallBackFn<T>[] = [])
-          + execAll: Promise<T[]>
-        }
+      card app_flow_object_type_e965a85a [
+        AppFlowObjectType
+        ---
+        { new (): T }
+      ]
+      class "AppStarter" as app_starter_e965a85a {
+        # _flow: AppFlow
+        # _gracefulStop: Promise<void>
+        # _onError(err: Error): Promise<void>
+        # _registerOnExit: void
+        # _status: AppStarterStatus
+        constructor(appFlow: AppFlow)
+        + start: Promise<void>
+        + stop: Promise<void>
       }
-      folder "life-cycle" as life_cycle_3f5aa653 {
-        interface "Creatable" as creatable_6eee977e {
-          + create: Promise<T>
-        }
-        interface "Destructible" as destructible_14789501 {
-          + destroy: Promise<T>
-        }
-        abstract "LifeCycle" as life_cycle_ee3c432e {
-          # _createExec: LifeCycleExecutable<T>
-          # {abstract} _createFn: Promise<T>
-          # _destroyExec: LifeCycleExecutable<T>
-          # {abstract} _destroyFn: Promise<T>
-          # _eventBus
-          # constructor(name: string,\n createExec: ObjectType<LifeCycleExecutable<T>> = ExecuteSimple,\n destroyExec: ObjectType<LifeCycleExecutable<T>> = ExecuteSimple)
-          + create: Promise<T>
-          + destroy: Promise<T>
-          + name: string
-          + subscribe(cb: (message: EventBusPayload) => void): Unsubscribable
+      object "appStarterFactory" as app_starter_factory_e965a85a {
+      }
+      abstract "LifeCycle" as life_cycle_2ee6f65a {
+        # {abstract} _createFn: Promise<T>
+        # {abstract} _destroyFn: Promise<T>
+        # constructor(params: { name: string })
+        + create: Promise<T>
+        + destroy: Promise<T>
+        + name: string
+      }
+      folder "__mocks__" as mocks_c1f08231 {
+        class "AppFlow" as app_flow_10177909 {
+          + FlowList: FlowList
+          # _flowList: FlowList
+          # constructor(...args: FlowList)
+          + create
+          + destroy
         }
       }
     }
-  app_flow_d6caefff -up-> life_cycle_ee3c432e
-  app_flow_d6caefff -up-> life_cycle_direction_d6caefff
-  event_bus_util_55c275a7 -up-> event_bus_2346de6e
-  event_bus_util_55c275a7 -up-> event_bus_type_e4eda33b
-  event_bus_2346de6e -up-> event_bus_type_e4eda33b
-  event_bus_2346de6e -up-> unsubscribable_53831e77
-  event_bus_2346de6e .up.|> subscribable_33c09d2c
-  execute_simple_ea430bad -up-> event_bus_2346de6e
-  execute_simple_ea430bad -up-> event_bus_type_e4eda33b
-  execute_simple_ea430bad -up-> event_bus_util_55c275a7
-  execute_simple_ea430bad -up-> unsubscribable_53831e77
-  execute_simple_ea430bad .up.|> executable_94895fe1
-  execute_simple_ea430bad .up.|> subscribable_33c09d2c
-  execute_with_hooks_fa3c885c -up-> event_bus_2346de6e
-  execute_with_hooks_fa3c885c -up-> event_bus_type_e4eda33b
-  execute_with_hooks_fa3c885c -up-> event_bus_util_55c275a7
-  execute_with_hooks_fa3c885c -up-> unsubscribable_53831e77
-  execute_with_hooks_fa3c885c -up-> function_array_b669ac47
-  execute_with_hooks_fa3c885c .up.|> executable_94895fe1
-  execute_with_hooks_fa3c885c .up.|> subscribable_33c09d2c
-  life_cycle_ee3c432e -up-> event_bus_2346de6e
-  life_cycle_ee3c432e -up-> unsubscribable_53831e77
-  life_cycle_ee3c432e -up-> execute_simple_ea430bad
-  life_cycle_ee3c432e .up.|> destructible_14789501
-  life_cycle_ee3c432e .up.|> creatable_6eee977e
-  life_cycle_ee3c432e .up.|> subscribable_33c09d2c
+  app_flow_10177909 -up-> flow_list_d6caefff
+  app_flow_d6caefff -up-> life_cycle_2ee6f65a
+  app_flow_d6caefff -up-> flow_list_d6caefff
+  app_flow_d6caefff -up-> flow_direction_d6caefff
+  app_flow_d6caefff -up-> app_flow_d6caefff
+  app_starter_e965a85a -up-> app_flow_d6caefff
+  app_starter_e965a85a -up-> app_starter_status_e965a85a
+  app_starter_factory_e965a85a -up-> app_flow_object_type_e965a85a
+  app_starter_factory_e965a85a -up-> app_starter_e965a85a
 @enduml
