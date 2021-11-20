@@ -1,4 +1,14 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": ["./node_modules", "./lib", "./.idea", "./.semaphore", "./resource", "./**/*.test.ts", "./src/test"]
+  "exclude": [
+    "./node_modules",
+    "./lib",
+    "./.idea",
+    "./.semaphore",
+    "./resource",
+    "./**/*.test.ts",
+    "./**/*.contract.ts",
+    "./**/__mocks__/**/*.*",
+    "./test"
+  ],
+  "extends": "./tsconfig.json"
 }

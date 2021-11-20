@@ -1,0 +1,69 @@
+@startuml
+    folder "src" as src_b874d07 {
+      card flow_list_d6caefff [
+        FlowList
+        ---
+        (LifeCycle | LifeCycle[])[]
+      ]
+      enum "FlowDirection" as flow_direction_d6caefff {
+        CREATE = 'create'
+        DESTROY = 'destroy'
+      }
+      abstract "AppFlow" as app_flow_d6caefff {
+        + DeepExecFlowList(params: {\n flowList: FlowList;\n direction: FlowDirection \n}): Promise<void>
+        + ExecSyncFlowList(lifeCycleList: LifeCycle[],\n createOrDestroy: FlowDirection): Promise<void>
+        # _flowList: FlowList
+        # _topLevelReversedFlowList: FlowList
+        # constructor(...args: FlowList)
+        + create: Promise<void>
+        + destroy: Promise<void>
+      }
+      enum "AppStarterStatus" as app_starter_status_e965a85a {
+        STARTED = 'started'
+        STOPPED = 'stopped'
+      }
+      card app_flow_object_type_e965a85a [
+        AppFlowObjectType
+        ---
+        { new (): T }
+      ]
+      class "AppStarter" as app_starter_e965a85a {
+        # _flow: AppFlow
+        # _gracefulStop: Promise<void>
+        # _onError(err: Error): Promise<void>
+        # _registerOnExit: void
+        # _status: AppStarterStatus
+        constructor(appFlow: AppFlow)
+        + start: Promise<void>
+        + stop: Promise<void>
+      }
+      object "appStarterFactory" as app_starter_factory_e965a85a {
+      }
+      abstract "LifeCycle" as life_cycle_2ee6f65a {
+        # {abstract} _createFn: Promise<T>
+        # {abstract} _destroyFn: Promise<T>
+        # constructor(params: { name: string })
+        + create: Promise<T>
+        + destroy: Promise<T>
+        + name: string
+      }
+      folder "__mocks__" as mocks_c1f08231 {
+        class "AppFlow" as app_flow_10177909 {
+          + FlowList: FlowList
+          # _flowList: FlowList
+          # constructor(...args: FlowList)
+          + create
+          + destroy
+        }
+      }
+    }
+  app_flow_10177909 -up-> flow_list_d6caefff
+  app_flow_d6caefff -up-> life_cycle_2ee6f65a
+  app_flow_d6caefff -up-> flow_list_d6caefff
+  app_flow_d6caefff -up-> flow_direction_d6caefff
+  app_flow_d6caefff -up-> app_flow_d6caefff
+  app_starter_e965a85a -up-> app_flow_d6caefff
+  app_starter_e965a85a -up-> app_starter_status_e965a85a
+  app_starter_factory_e965a85a -up-> app_flow_object_type_e965a85a
+  app_starter_factory_e965a85a -up-> app_starter_e965a85a
+@enduml
