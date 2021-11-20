@@ -13,7 +13,7 @@ export default contractFactory(
       terms: [
         {
           params: [...dummyData.lifeCycleList],
-          result: { _lifeCycleList: [...dummyData.lifeCycleList] },
+          result: { _flowList: [...dummyData.lifeCycleList] },
         },
       ],
     },

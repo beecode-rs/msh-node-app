@@ -1,39 +1,46 @@
-import { LifeCycle } from './life-cycle/life-cycle'
+import { LifeCycle } from './life-cycle'
+import { logger } from './util/logger'
 
-export type LifeCycleList = (LifeCycle | LifeCycle[])[]
+export type FlowList = (LifeCycle | LifeCycle[])[]
 
-export enum LifeCycleDirection {
+export enum FlowDirection {
   DESTROY = 'destroy',
   CREATE = 'create',
 }
 
-export class AppFlow {
-  protected readonly _lifeCycleList: LifeCycleList
+export abstract class AppFlow {
+  protected readonly _flowList: FlowList
 
-  constructor(...args: LifeCycleList) {
-    this._lifeCycleList = [...args]
+  protected constructor(...args: FlowList) {
+    this._flowList = [...args]
   }
 
   public async create(): Promise<void> {
-    await this._deepExecFlowList(this._lifeCycleList, LifeCycleDirection.CREATE)
+    await AppFlow.DeepExecFlowList({ flowList: this._flowList, direction: FlowDirection.CREATE })
   }
 
   public async destroy(): Promise<void> {
-    await this._deepExecFlowList(this._topLevelReversedFlowList(), LifeCycleDirection.DESTROY)
+    await AppFlow.DeepExecFlowList({ flowList: this._topLevelReversedFlowList(), direction: FlowDirection.DESTROY })
   }
 
-  protected _topLevelReversedFlowList(): LifeCycleList {
-    return this._lifeCycleList.reverse()
+  protected _topLevelReversedFlowList(): FlowList {
+    return this._flowList.reverse()
   }
 
-  protected async _deepExecFlowList(lifeCycleList: LifeCycleList, createOrDestroy: LifeCycleDirection): Promise<void> {
-    for (const lifeCycle of lifeCycleList) {
-      if (Array.isArray(lifeCycle)) await this._execSyncFlowList(lifeCycle, createOrDestroy)
-      else await lifeCycle[createOrDestroy]()
+  public static async DeepExecFlowList(params: { flowList: FlowList; direction: FlowDirection }): Promise<void> {
+    try {
+      const { flowList, direction } = params
+      for (const lifeCycle of flowList) {
+        if (Array.isArray(lifeCycle)) await AppFlow.ExecSyncFlowList(lifeCycle, direction)
+        else await lifeCycle[direction]()
+      }
+    } catch (err) {
+      if (err instanceof Error) logger().error(err)
+      throw err
     }
   }
 
-  protected async _execSyncFlowList(lifeCycleList: LifeCycle[], createOrDestroy: LifeCycleDirection): Promise<void> {
-    await Promise.all(lifeCycleList.map((i: LifeCycle) => i[createOrDestroy]()))
+  public static async ExecSyncFlowList(lifeCycleList: LifeCycle[], createOrDestroy: FlowDirection): Promise<void> {
+    await Promise.all(lifeCycleList.map((lifeCycle: LifeCycle) => lifeCycle[createOrDestroy]()))
   }
 }
