@@ -47,17 +47,7 @@
         + destroy: Promise<T>
         + name: string
       }
-      folder "__mocks__" as mocks_c1f08231 {
-        class "AppFlow" as app_flow_10177909 {
-          + FlowList: FlowList
-          # _flowList: FlowList
-          # constructor(...args: FlowList)
-          + create
-          + destroy
-        }
-      }
     }
-  app_flow_10177909 -up-> flow_list_d6caefff
   app_flow_d6caefff -up-> life_cycle_2ee6f65a
   app_flow_d6caefff -up-> flow_list_d6caefff
   app_flow_d6caefff -up-> flow_direction_d6caefff
