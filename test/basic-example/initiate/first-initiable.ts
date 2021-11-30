@@ -1,7 +1,7 @@
 import { LifeCycle } from '../../../src/life-cycle'
 
 export class FirstInitiable extends LifeCycle {
-  constructor() {
+  public constructor() {
     super({ name: 'First initiable' })
   }
 

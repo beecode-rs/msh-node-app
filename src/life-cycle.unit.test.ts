@@ -3,7 +3,7 @@ import { logger } from './util/logger'
 
 jest.mock('./util/logger')
 export class LifeCycleMockImplementation extends LifeCycle {
-  constructor(params: { name: string }) {
+  public constructor(params: { name: string }) {
     super(params)
     this._createFn = jest.fn()
     this._destroyFn = jest.fn()

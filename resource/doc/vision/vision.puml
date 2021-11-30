@@ -33,7 +33,7 @@
         # _onError(err: Error): Promise<void>
         # _registerOnExit: void
         # _status: AppStarterStatus
-        constructor(appFlow: AppFlow)
+       + constructor(appFlow: AppFlow)
         + start: Promise<void>
         + stop: Promise<void>
       }

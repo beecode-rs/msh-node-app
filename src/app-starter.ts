@@ -12,7 +12,7 @@ export class AppStarter {
   protected _flow: AppFlow
   protected _status: AppStarterStatus = AppStarterStatus.STOPPED
 
-  constructor(appFlow: AppFlow) {
+  public constructor(appFlow: AppFlow) {
     this._flow = appFlow
   }
 

@@ -6,7 +6,7 @@ jest.mock('./util/logger')
 jest.mock('./app-flow')
 
 class DummyAppFlow extends AppFlow {
-  constructor() {
+  public constructor() {
     super()
   }
 }
