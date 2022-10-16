@@ -61,6 +61,7 @@
   },
   "files": [
     "lib",
+    "src",
     "package-lock.json"
   ],
   "homepage": "https://github.com/beecode-rs/msh-node-app#readme",
