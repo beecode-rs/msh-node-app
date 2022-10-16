@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/beecode-rs/msh-node-app/compare/v1.0.2...v1.0.3) (2022-10-16)
+
+
+### Bug Fixes
+
+* add src to release ([ca19728](https://github.com/beecode-rs/msh-node-app/commit/ca19728dda71ad1da90d16a1052c181fa68881f4))
+
 ## [1.0.2](https://github.com/beecode-rs/msh-node-app/compare/v1.0.1...v1.0.2) (2022-02-27)
 
 
