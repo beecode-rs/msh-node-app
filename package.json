@@ -14,8 +14,8 @@
     }
   },
   "dependencies": {
-    "@beecode/msh-node-log": "2.2.2",
-    "@beecode/msh-test-contractor": "0.3.7-alpha",
+    "@beecode/msh-node-log": "2.2.3",
+    "@beecode/msh-test-contractor": "0.3.9",
     "rxjs": "7.5.4"
   },
   "description": "This project is intended to be used in typescript project to help with app initialization.",
